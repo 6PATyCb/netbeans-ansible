@@ -1,4 +1,4 @@
-# Ansible Module for Netbeans
+﻿# Ansible Module for Netbeans
 
 * WIP
 * roughly based on:
@@ -11,6 +11,7 @@
   
 ## current State
 
-Project Listing already works!
+- Netbeans embedded CVS suport added to project type
+- Added project listing
 
 ![project-listing.png](images/project-listing.png)

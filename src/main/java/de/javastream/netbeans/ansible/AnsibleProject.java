@@ -135,6 +135,7 @@ public class AnsibleProject implements Project {
             public ProjectNode(Node node, AnsibleProject project) throws DataObjectNotFoundException {
                 super(node,
                         NodeFactorySupport.createCompositeChildren(project, "Projects/de-javastream-ansible/Nodes"),
+                      //  new FilterNode.Children(node),
                         new ProxyLookup(
                                 new Lookup[]{
                                     Lookups.singleton(project),
