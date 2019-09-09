@@ -11,7 +11,7 @@
   
 ## current State
 
-- Netbeans embedded CVS suport added to project type
+- Netbeans embedded CVS support added to project type
 - Added project listing
 
-![project-listing.png](images/project-listing.png)
+![new-project-listing.png](images/new-project-listing.png)
