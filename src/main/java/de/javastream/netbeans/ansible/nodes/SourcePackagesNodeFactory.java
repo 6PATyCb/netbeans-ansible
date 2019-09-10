@@ -37,6 +37,7 @@ public class SourcePackagesNodeFactory implements NodeFactory {
 
     @StaticResource()
     public static final String SOURCE_BADGE_ICON = "de/javastream/netbeans/ansible/sources-badge.png";
+    
 
     @Override
     public NodeList<?> createNodes(Project project) {
@@ -59,7 +60,8 @@ public class SourcePackagesNodeFactory implements NodeFactory {
             Map<Node, FileObject> nodeToFileObjectMap = new HashMap<>();
 
             List<Node> result = new ArrayList<>();
-            for (FileObject file : project.getProjectDirectory().getChildren()) {
+             FileObject rootProjectDir = project.getProjectDirectory();
+            for (FileObject file : rootProjectDir.getChildren()) {
                 String fileName = file.getNameExt().toLowerCase();
                 if (fileName.startsWith(".")//skip hidden files and folders
                         || fileName.equals(ProjectFilesNodeFactory.HOSTS_NAME)

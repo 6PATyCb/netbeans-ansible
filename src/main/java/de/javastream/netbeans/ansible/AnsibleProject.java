@@ -2,6 +2,7 @@ package de.javastream.netbeans.ansible;
 
 import java.awt.Image;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -40,12 +41,18 @@ import org.openide.util.lookup.ProxyLookup;
  */
 public class AnsibleProject implements Project {
 
+    public static final String ANSIBLE_ROOT_ATTR_NAME = "ansible-root-dir";
     private final FileObject projectDir;
     private final ProjectState state;
     private Lookup lkp;
 
     public AnsibleProject(FileObject dir, ProjectState state) {
         this.projectDir = dir;
+        try {
+            dir.setAttribute(ANSIBLE_ROOT_ATTR_NAME, true);
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
+        }
         this.state = state;
     }
 
@@ -130,12 +137,12 @@ public class AnsibleProject implements Project {
 
         private final class ProjectNode extends FilterNode {
 
-            final AnsibleProject project;
+            private final AnsibleProject project;
 
             public ProjectNode(Node node, AnsibleProject project) throws DataObjectNotFoundException {
                 super(node,
                         NodeFactorySupport.createCompositeChildren(project, "Projects/de-javastream-ansible/Nodes"),
-                      //  new FilterNode.Children(node),
+                        //  new FilterNode.Children(node),
                         new ProxyLookup(
                                 new Lookup[]{
                                     Lookups.singleton(project),
@@ -147,13 +154,13 @@ public class AnsibleProject implements Project {
 
             @Override
             public Action[] getActions(boolean arg0) {
-                List<Action> actions = new ArrayList<Action>();
+                List<Action> actions = new ArrayList<>();
                 actions.add(CommonProjectActions.newFileAction());
                 actions.add(CommonProjectActions.copyProjectAction());
                 actions.add(CommonProjectActions.deleteProjectAction());
                 actions.add(CommonProjectActions.customizeProjectAction());
                 actions.add(CommonProjectActions.setProjectConfigurationAction());
-                
+
                 // honor 57874 contact
                 try {
                     Repository repository = Repository.getDefault();

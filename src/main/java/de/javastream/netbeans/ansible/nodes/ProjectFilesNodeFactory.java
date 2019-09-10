@@ -3,6 +3,7 @@ package de.javastream.netbeans.ansible.nodes;
 import de.javastream.netbeans.ansible.AnsibleProject;
 import static de.javastream.netbeans.ansible.nodes.SourcePackagesNodeFactory.SOURCE_PACKAGES_ICON;
 import java.awt.Image;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -21,6 +22,7 @@ import org.openide.nodes.FilterNode;
 import org.openide.nodes.Node;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
+import org.openide.util.Lookup;
 
 /**
  *
@@ -32,20 +34,21 @@ public class ProjectFilesNodeFactory implements NodeFactory {
     private static final String PROJECT_FILES_NAME = "Project Files";
     public static final String HOSTS_NAME = "hosts";
     public static final String ANSIBLE_CFG_NAME = "ansible.cfg";
+    public static final String ANSIBLE_INI_TYPE_ATTR_NAME = "ansible-ini-file";
 
     @StaticResource()
     public static final String PROJECT_FILES_BADGE_ICON = "de/javastream/netbeans/ansible/projectfiles-badge.png";
 
     @Override
     public NodeList<?> createNodes(Project project) {
-        AnsibleProject p = project.getLookup().lookup(AnsibleProject.class);
-        assert p != null;
-        return new RolesNodeList(p);
+        AnsibleProject ansibleProject = project.getLookup().lookup(AnsibleProject.class);
+        assert ansibleProject != null;
+        return new RolesNodeList(ansibleProject);
     }
 
     private class RolesNodeList implements NodeList<Node> {
 
-        AnsibleProject project;
+        private final AnsibleProject project;
 
         public RolesNodeList(AnsibleProject project) {
             this.project = project;
@@ -55,39 +58,28 @@ public class ProjectFilesNodeFactory implements NodeFactory {
         public List<Node> keys() {
 
             List<Node> result = new ArrayList<>();
-            for (FileObject file : project.getProjectDirectory().getChildren()) {
+            FileObject rootProjectDir = project.getProjectDirectory();
+            for (FileObject file : rootProjectDir.getChildren()) {
                 String fileName = file.getNameExt().toLowerCase();
                 if (fileName.equals(HOSTS_NAME) || fileName.equals(ANSIBLE_CFG_NAME)) {
                     try {
-                        result.add(DataObject.find(file).getNodeDelegate());
+                        file.setAttribute(ANSIBLE_INI_TYPE_ATTR_NAME, true);
+                        DataObject dataObject = DataObject.find(file);
+                        result.add(dataObject.getNodeDelegate());
                     } catch (DataObjectNotFoundException ex) {
+                        Exceptions.printStackTrace(ex);
+                    } catch (IOException ex) {
                         Exceptions.printStackTrace(ex);
                     }
                 }
             }
             Children children = new Children.Array() {
-
                 @Override
                 protected Collection<Node> initCollection() {
                     return result;
                 }
             };
-            Node node = new AbstractNode(children) {
-                @Override
-                public Image getIcon(int type) {
-                    Image icon = ImageUtilities.loadImage(SOURCE_PACKAGES_ICON);
-                    Image badge = ImageUtilities.loadImage(PROJECT_FILES_BADGE_ICON);
-                    return ImageUtilities.mergeImages(icon, badge, 7, 7);
-                }
-
-                @Override
-                public Image getOpenedIcon(int type) {
-                    return getIcon(type);
-                }
-
-            };
-            node.setDisplayName(PROJECT_FILES_NAME);
-            return Collections.singletonList(node);
+            return Collections.singletonList(new ProjectFilesNode(children));
         }
 
         @Override
@@ -110,5 +102,36 @@ public class ProjectFilesNodeFactory implements NodeFactory {
         @Override
         public void removeChangeListener(ChangeListener cl) {
         }
+    }
+
+    private class ProjectFilesNode extends AbstractNode {
+
+        public ProjectFilesNode(Children children) {
+            super(children);
+            setDisplayName(PROJECT_FILES_NAME);
+        }
+
+        public ProjectFilesNode(Children children, Lookup lookup) {
+            super(children, lookup);
+            setDisplayName(PROJECT_FILES_NAME);
+        }
+
+        @Override
+        public final void setDisplayName(String s) {
+            super.setDisplayName(s);
+        }
+
+        @Override
+        public Image getIcon(int type) {
+            Image icon = ImageUtilities.loadImage(SOURCE_PACKAGES_ICON);
+            Image badge = ImageUtilities.loadImage(PROJECT_FILES_BADGE_ICON);
+            return ImageUtilities.mergeImages(icon, badge, 7, 7);
+        }
+
+        @Override
+        public Image getOpenedIcon(int type) {
+            return getIcon(type);
+        }
+
     }
 }
