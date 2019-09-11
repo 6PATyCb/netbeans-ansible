@@ -43,14 +43,14 @@ public class ProjectFilesNodeFactory implements NodeFactory {
     public NodeList<?> createNodes(Project project) {
         AnsibleProject ansibleProject = project.getLookup().lookup(AnsibleProject.class);
         assert ansibleProject != null;
-        return new RolesNodeList(ansibleProject);
+        return new ProjectFilesNodeList(ansibleProject);
     }
 
-    private class RolesNodeList implements NodeList<Node> {
+    private class ProjectFilesNodeList implements NodeList<Node> {
 
         private final AnsibleProject project;
 
-        public RolesNodeList(AnsibleProject project) {
+        public ProjectFilesNodeList(AnsibleProject project) {
             this.project = project;
         }
 
@@ -65,7 +65,7 @@ public class ProjectFilesNodeFactory implements NodeFactory {
                     try {
                         file.setAttribute(ANSIBLE_INI_TYPE_ATTR_NAME, true);
                         DataObject dataObject = DataObject.find(file);
-                        result.add(dataObject.getNodeDelegate());
+                        result.add(dataObject.getNodeDelegate().cloneNode());
                     } catch (DataObjectNotFoundException ex) {
                         Exceptions.printStackTrace(ex);
                     } catch (IOException ex) {

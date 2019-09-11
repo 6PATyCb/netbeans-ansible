@@ -43,14 +43,14 @@ public class SourcePackagesNodeFactory implements NodeFactory {
     public NodeList<?> createNodes(Project project) {
         AnsibleProject p = project.getLookup().lookup(AnsibleProject.class);
         assert p != null;
-        return new RolesNodeList(p);
+        return new SourcePackagesNodeList(p);
     }
 
-    private class RolesNodeList implements NodeList<Node> {
+    private class SourcePackagesNodeList implements NodeList<Node> {
 
         AnsibleProject project;
 
-        public RolesNodeList(AnsibleProject project) {
+        public SourcePackagesNodeList(AnsibleProject project) {
             this.project = project;
         }
 
@@ -70,7 +70,7 @@ public class SourcePackagesNodeFactory implements NodeFactory {
                 }
                 try {
                     Node node = DataObject.find(file).getNodeDelegate();
-                    result.add(node);
+                    result.add(node.cloneNode());
                     nodeToFileObjectMap.put(node, file);
                 } catch (DataObjectNotFoundException ex) {
                     Exceptions.printStackTrace(ex);
