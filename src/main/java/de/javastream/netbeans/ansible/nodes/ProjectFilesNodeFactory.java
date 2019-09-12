@@ -4,8 +4,6 @@ import de.javastream.netbeans.ansible.AnsibleProject;
 import static de.javastream.netbeans.ansible.nodes.SourcePackagesNodeFactory.SOURCE_PACKAGES_ICON;
 import java.awt.Image;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import javax.swing.event.ChangeListener;
@@ -13,16 +11,21 @@ import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.project.Project;
 import org.netbeans.spi.project.ui.support.NodeFactory;
 import org.netbeans.spi.project.ui.support.NodeList;
+import org.openide.filesystems.FileChangeAdapter;
+import org.openide.filesystems.FileEvent;
 import org.openide.filesystems.FileObject;
+import org.openide.filesystems.FileRenameEvent;
 import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
 import org.openide.nodes.AbstractNode;
+import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Children;
 import org.openide.nodes.FilterNode;
 import org.openide.nodes.Node;
+import org.openide.nodes.NodeAdapter;
+import org.openide.nodes.NodeEvent;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
-import org.openide.util.Lookup;
 
 /**
  *
@@ -56,30 +59,73 @@ public class ProjectFilesNodeFactory implements NodeFactory {
 
         @Override
         public List<Node> keys() {
-
-            List<Node> result = new ArrayList<>();
-            FileObject rootProjectDir = project.getProjectDirectory();
-            for (FileObject file : rootProjectDir.getChildren()) {
-                String fileName = file.getNameExt().toLowerCase();
-                if (fileName.equals(HOSTS_NAME) || fileName.equals(ANSIBLE_CFG_NAME)) {
-                    try {
-                        file.setAttribute(ANSIBLE_INI_TYPE_ATTR_NAME, true);
-                        DataObject dataObject = DataObject.find(file);
-                        result.add(dataObject.getNodeDelegate().cloneNode());
-                    } catch (DataObjectNotFoundException ex) {
-                        Exceptions.printStackTrace(ex);
-                    } catch (IOException ex) {
-                        Exceptions.printStackTrace(ex);
-                    }
-                }
-            }
-            Children children = new Children.Array() {
+            return Collections.singletonList(new ProjectFilesNode(Children.create(new ChildFactory<Node>() {
                 @Override
-                protected Collection<Node> initCollection() {
-                    return result;
+                protected boolean createKeys(List<Node> toPopulate) {
+                    FileObject rootProjectDir = project.getProjectDirectory();
+                    rootProjectDir.addFileChangeListener(new FileChangeAdapter() {
+                        @Override
+                        public void fileRenamed(FileRenameEvent fe) {
+                            super.fileRenamed(fe);
+                            refresh(true);
+                        }
+
+                        @Override
+                        public void fileDataCreated(FileEvent fe) {
+                            super.fileDataCreated(fe);
+                            refresh(true);
+                        }
+
+                        @Override
+                        public void fileDeleted(FileEvent fe) {
+                            super.fileDeleted(fe);
+                            refresh(true);
+                        }
+
+                        @Override
+                        public void fileChanged(FileEvent fe) {
+                            super.fileChanged(fe);
+                            refresh(true);
+                        }
+
+                        @Override
+                        public void fileFolderCreated(FileEvent fe) {
+                            super.fileFolderCreated(fe);
+                            refresh(true);
+                        }
+                    });
+                    for (FileObject file : rootProjectDir.getChildren()) {
+                        String fileName = file.getNameExt().toLowerCase();
+                        if (fileName.equals(HOSTS_NAME) || fileName.equals(ANSIBLE_CFG_NAME)) {
+                            try {
+                                file.setAttribute(ANSIBLE_INI_TYPE_ATTR_NAME, true);
+                                DataObject dataObject = DataObject.find(file);
+                                Node node = dataObject.getNodeDelegate();
+                                node.addNodeListener(new NodeAdapter() {
+                                    @Override
+                                    public void nodeDestroyed(NodeEvent ev) {
+                                        super.nodeDestroyed(ev);
+                                        refresh(true);
+                                    }
+
+                                });
+                                toPopulate.add(node.cloneNode());
+                            } catch (DataObjectNotFoundException ex) {
+                                Exceptions.printStackTrace(ex);
+                            } catch (IOException ex) {
+                                Exceptions.printStackTrace(ex);
+                            }
+                        }
+                    }
+                    return true;
                 }
-            };
-            return Collections.singletonList(new ProjectFilesNode(children));
+
+                @Override
+                protected Node createNodeForKey(Node key) {
+                    return key;
+                }
+
+            }, true)));
         }
 
         @Override
@@ -108,11 +154,6 @@ public class ProjectFilesNodeFactory implements NodeFactory {
 
         public ProjectFilesNode(Children children) {
             super(children);
-            setDisplayName(PROJECT_FILES_NAME);
-        }
-
-        public ProjectFilesNode(Children children, Lookup lookup) {
-            super(children, lookup);
             setDisplayName(PROJECT_FILES_NAME);
         }
 
