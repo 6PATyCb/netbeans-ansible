@@ -13,5 +13,6 @@
 
 - Netbeans embedded CVS support added to project type
 - Added project listing
+- Added simple syntax coloring (ANTLR) to ansible ini files 
 
 ![new-project-listing.png](images/new-project-listing.png)

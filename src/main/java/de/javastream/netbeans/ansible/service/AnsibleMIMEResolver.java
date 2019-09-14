@@ -5,6 +5,7 @@
  */
 package de.javastream.netbeans.ansible.service;
 
+import static de.javastream.netbeans.ansible.lexer.AnsibleIniLanguageProvider.ANSIBLE_INI_MIME_TYPE;
 import de.javastream.netbeans.ansible.nodes.ProjectFilesNodeFactory;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.MIMEResolver;
@@ -16,14 +17,13 @@ import org.openide.util.lookup.ServiceProvider;
  */
 @ServiceProvider(service = MIMEResolver.class)
 public class AnsibleMIMEResolver extends MIMEResolver {
-    
-    //TODO Constructor with super
 
+    //TODO Constructor with super
     @Override
     public String findMIMEType(FileObject fo) {
         Object value = fo.getAttribute(ProjectFilesNodeFactory.ANSIBLE_INI_TYPE_ATTR_NAME);
         if (value != null) {
-            return "text/x-ini";
+            return ANSIBLE_INI_MIME_TYPE;
         }
         return null;
     }
