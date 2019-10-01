@@ -1,7 +1,6 @@
 package de.javastream.netbeans.ansible;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import org.netbeans.api.project.Project;
 import org.netbeans.spi.project.ProjectFactory;
@@ -17,7 +16,6 @@ import org.openide.util.lookup.ServiceProvider;
 public class AnsibleProjectFactory implements ProjectFactory {
 
     public static final String PROJECT_FILE = "inventory";
-    public static final String FOLDER_ = "roles";
 
     /**
      * Check if at least one file in Project Directory has extension "yml" (that
@@ -42,11 +40,24 @@ public class AnsibleProjectFactory implements ProjectFactory {
 
     private boolean checkPath(String path) {
         File folder = new File(path);
-        File[] children = folder.exists() ? folder.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return !name.startsWith(".") && (name.endsWith("yml") || name.equals("roles"));
+        File[] children = folder.exists() ? folder.listFiles((File dir, String name) -> {
+            if (name.startsWith(".")) {
+                return false;
             }
+            name = name.toLowerCase();
+            if (dir.isDirectory()) {
+                if (name.equals("roles") || name.equals("group_vars") || name.equals("host_vars")) {
+                    return true;
+                }
+            } else {
+                if (name.endsWith(".yml")) {
+                    return true;
+                }
+                if (name.equals("ansible.cfg") || name.equals("hosts")) {
+                    return true;
+                }
+            }
+            return false;
         }) : null;
         return children != null && children.length > 0;
     }
