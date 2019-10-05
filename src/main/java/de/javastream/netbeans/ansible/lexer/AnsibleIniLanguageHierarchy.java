@@ -5,6 +5,7 @@
  */
 package de.javastream.netbeans.ansible.lexer;
 
+import static de.javastream.netbeans.ansible.lexer.AnsibleIniLanguageProvider.ANSIBLE_INI_MIME_TYPE;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -63,7 +64,7 @@ public class AnsibleIniLanguageHierarchy extends LanguageHierarchy<AnsibleIniTok
 
     @Override
     protected String mimeType() {
-        return "text/x-anini";
+        return ANSIBLE_INI_MIME_TYPE;
     }
 
 }

@@ -16,17 +16,17 @@ import org.netbeans.spi.lexer.LexerRestartInfo;
 public class AnsibleIniLexer implements Lexer<AnsibleIniTokenId> {
 
     private final LexerRestartInfo<AnsibleIniTokenId> lexerRestartInfo;
-    private final AnsibleIniLexerGrammar ansibleIniLexerGrammar;
+    private final AnsibleIniAntlrLexer ansibleIniAntlrLexer;
 
     public AnsibleIniLexer(LexerRestartInfo<AnsibleIniTokenId> lexerRestartInfo) {
         this.lexerRestartInfo = lexerRestartInfo;
         AntlrCharStream charStream = new AntlrCharStream(lexerRestartInfo.input(), "AnsibleIniEditor");
-        ansibleIniLexerGrammar = new AnsibleIniLexerGrammar(charStream);
+        ansibleIniAntlrLexer = new AnsibleIniAntlrLexer(charStream);
     }
 
     @Override
     public Token<AnsibleIniTokenId> nextToken() {
-        org.antlr.v4.runtime.Token token = ansibleIniLexerGrammar.nextToken();
+        org.antlr.v4.runtime.Token token = ansibleIniAntlrLexer.nextToken();
         if (token.getType() != org.antlr.v4.runtime.Token.EOF) {
             AnsibleIniTokenId tokenId = AnsibleIniLanguageHierarchy.getToken(token.getType());
             return lexerRestartInfo.tokenFactory().createToken(tokenId);
