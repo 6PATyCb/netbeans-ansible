@@ -11,8 +11,12 @@
   
 ## current State
 
+12.11.2019
+- Fixed Ansible project type poison behavior affecting to other project types
+
+15.09.2019
 - Netbeans embedded CVS support added to project type
 - Added project listing
-- Added simple syntax coloring (ANTLR) to ansible ini files 
+- Added simple syntax coloring (ANTLR) to ansible ini files
 
 ![new-project-listing.png](images/new-project-listing.png)

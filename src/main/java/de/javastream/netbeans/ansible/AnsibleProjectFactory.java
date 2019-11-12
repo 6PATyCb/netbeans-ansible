@@ -31,7 +31,7 @@ public class AnsibleProjectFactory implements ProjectFactory {
 
     @Override
     public Project loadProject(FileObject projectDirectory, ProjectState ps) throws IOException {
-        return new AnsibleProject(projectDirectory, ps);
+        return isProject(projectDirectory) ? new AnsibleProject(projectDirectory, ps) : null;
     }
 
     @Override

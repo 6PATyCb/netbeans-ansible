@@ -43,7 +43,7 @@ public class AnsibleProject implements Project {
 
     public static final String ANSIBLE_ROOT_ATTR_NAME = "ansible-root-dir";
     private final FileObject projectDir;
-    private final ProjectState state;
+  //  private final ProjectState state;
     private Lookup lkp;
 
     public AnsibleProject(FileObject dir, ProjectState state) {
@@ -53,7 +53,7 @@ public class AnsibleProject implements Project {
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
         }
-        this.state = state;
+        //this.state = state;
     }
 
     @Override
