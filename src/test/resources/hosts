@@ -1,0 +1,31 @@
+#asdsasdas
+
+[atlanta]
+host1
+host2
+
+[raleigh]
+host2
+host3
+
+[test]
+some_host         ansible_port=2222     ansible_user=manager
+aws_host          ansible_ssh_private_key_file=/home/example/.ssh/aws.pem
+freebsd_host      ansible_python_interpreter=/usr/local/bin/python
+ruby_module_host  ansible_ruby_interpreter=/usr/bin/ruby1.9.3
+
+[southeast:children]
+atlanta
+raleigh
+
+[southeast:vars]
+some_server=foo.southeast.example.com
+halon_system_timeout=30
+self_destruct_countdown=60
+escape_pods=2
+
+[usa:children]
+southeast
+northeast
+southwest
+northwest

@@ -13,22 +13,20 @@ import org.netbeans.api.lexer.TokenId;
  * @author 6PATyCb
  */
 public enum TokenType implements TokenId {
-    GROUP(2, "field"),
-    NUMBER(5, "identifier"),
-    OPERATOR(12, "keyword"),
-    RANGE_HOST_NAME(3, "url"),
-    HOST_NAME(6, "url"),
-    IPV4(7, "url"),
-    SL_COMMENT(11, "comment"),
-    STRING(8, "string"),
-    HOST_AND_PORT(1, "url"),
-    WS(10, "whitespace"),
-    EOL(9, "whitespace"),
-    NAME(4, "identifier"),
-    IDENT(15, "keyword"),
-    LSQUARE(13, "keyword"),
-    RSQUARE(14, "keyword"),;
-    
+    WARS(1, "field"),
+    COLON(9, "field"),
+    HEX(10, "identifier"),
+    EQUAL(6, "identifier"),
+    SLASH(7, "identifier"),
+    SL_COMMENT(2, "comment"),
+    DOT(8, "identifier"),
+    STRING(11, "string"),
+    WS(12, "whitespace"),
+    EOL(13, "whitespace"),
+    IDENT(5, "identifier"),
+    LSQUARE(3, "field"),
+    RSQUARE(4, "field"),;
+
     public int id;
     public String category;
     public String text;

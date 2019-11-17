@@ -23,22 +23,18 @@ import org.netbeans.spi.editor.hints.Severity;
  */
 public class SyntaxErrorsTask extends ParserResultTask<AnsibleIniParserResult> {
 
-    private static final Logger logger = Logger.getLogger(SyntaxErrorsTask.class.getName());
-
-    public SyntaxErrorsTask() {
-        logger.info("!!created");
-    }
+    private static final Logger LOGGER = Logger.getLogger(SyntaxErrorsTask.class.getName());
 
     @Override
     public void run(AnsibleIniParserResult result, SchedulerEvent event) {
 
         List<SyntaxError> syntaxErrors = result.getErrors();
-        logger.info("!!created and runned " + syntaxErrors.size());
+        //   LOGGER.info("!!created and runned " + syntaxErrors.size());
         Document document = result.getSnapshot().getSource().getDocument(false);
         List<ErrorDescription> errors = new ArrayList<>();
         for (SyntaxError syntaxError : syntaxErrors) {
             String message = syntaxError.getMessage();
-            logger.info("!!message " + message);
+            //      LOGGER.info("!!message " + message);
             int line = syntaxError.getLine();
             if (line <= 0) {
                 continue;
@@ -50,8 +46,8 @@ public class SyntaxErrorsTask extends ParserResultTask<AnsibleIniParserResult> {
                     line);
             errors.add(errorDescription);
         }
-        HintsController.setErrors(document, "ANsibleLayer", errors); // NOI18N
-        logger.info("!!run finished");
+        HintsController.setErrors(document, "AnsibleIniEditor", errors); // NOI18N
+        //  LOGGER.info("!!run finished");
     }
 
     @Override

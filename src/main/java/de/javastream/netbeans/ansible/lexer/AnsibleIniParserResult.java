@@ -49,8 +49,8 @@ public class AnsibleIniParserResult extends ParserResult {
     public List<SyntaxError> getErrors() {
         List<? extends ANTLRErrorListener> errorListeners = parser.getErrorListeners();
         for (ANTLRErrorListener errorListener : errorListeners) {
-            if (errorListener instanceof EditorConfigErrorListener) {
-                EditorConfigErrorListener ecErrorListener = (EditorConfigErrorListener) errorListener;
+            if (errorListener instanceof AnsibleIniErrorListener) {
+                AnsibleIniErrorListener ecErrorListener = (AnsibleIniErrorListener) errorListener;
                 return ecErrorListener.getErrorMessages();
             }
         }

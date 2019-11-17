@@ -17,26 +17,26 @@ import org.antlr.v4.runtime.Recognizer;
  *
  * @author 6PATyCb
  */
-public class EditorConfigErrorListener extends BaseErrorListener {
+public class AnsibleIniErrorListener extends BaseErrorListener {
 
-    private static final Logger logger = Logger.getLogger(EditorConfigErrorListener.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(AnsibleIniErrorListener.class.getName());
     private final List<SyntaxError> errorMessages;
 
-    public EditorConfigErrorListener(List<SyntaxError> errorMessages) {
+    public AnsibleIniErrorListener(List<SyntaxError> errorMessages) {
         if (errorMessages == null) {
-            errorMessages = Collections.synchronizedList(new ArrayList<SyntaxError>());
+            errorMessages = Collections.synchronizedList(new ArrayList<>());
         }
         this.errorMessages = errorMessages;
     }
 
     @Override
     public synchronized void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
-        logger.info("!!syntaxError");
+        //   LOGGER.info("!!syntaxError");
         errorMessages.add(new SyntaxError(msg, line, charPositionInLine, e));
     }
 
     public synchronized List<SyntaxError> getErrorMessages() {
-        logger.info("!!getErrorMessages");
+        //     LOGGER.info("!!getErrorMessages");
         return errorMessages;
     }
 

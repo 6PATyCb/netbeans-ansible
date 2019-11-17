@@ -18,7 +18,63 @@ public class AnsibleIniAntlrBaseVisitor<T> extends AbstractParseTreeVisitor<T> i
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitString(@NotNull AnsibleIniAntlrParser.StringContext ctx) { return visitChildren(ctx); }
+	@Override public T visitExpression(@NotNull AnsibleIniAntlrParser.ExpressionContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitIni(@NotNull AnsibleIniAntlrParser.IniContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitSection(@NotNull AnsibleIniAntlrParser.SectionContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitSl_comment(@NotNull AnsibleIniAntlrParser.Sl_commentContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitSectionGroupHeader(@NotNull AnsibleIniAntlrParser.SectionGroupHeaderContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitPath(@NotNull AnsibleIniAntlrParser.PathContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitHostname(@NotNull AnsibleIniAntlrParser.HostnameContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitSectionRow(@NotNull AnsibleIniAntlrParser.SectionRowContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -34,5 +90,37 @@ public class AnsibleIniAntlrBaseVisitor<T> extends AbstractParseTreeVisitor<T> i
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitSl_comment(@NotNull AnsibleIniAntlrParser.Sl_commentContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVariable(@NotNull AnsibleIniAntlrParser.VariableContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitSectionVarsHeader(@NotNull AnsibleIniAntlrParser.SectionVarsHeaderContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitGroupSection(@NotNull AnsibleIniAntlrParser.GroupSectionContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitValue(@NotNull AnsibleIniAntlrParser.ValueContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitVarsSection(@NotNull AnsibleIniAntlrParser.VarsSectionContext ctx) { return visitChildren(ctx); }
 }

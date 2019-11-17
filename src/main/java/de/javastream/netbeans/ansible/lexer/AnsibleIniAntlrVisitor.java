@@ -12,11 +12,60 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface AnsibleIniAntlrVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by {@link AnsibleIniAntlrParser#string}.
+	 * Visit a parse tree produced by {@link AnsibleIniAntlrParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitString(@NotNull AnsibleIniAntlrParser.StringContext ctx);
+	T visitExpression(@NotNull AnsibleIniAntlrParser.ExpressionContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link AnsibleIniAntlrParser#ini}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIni(@NotNull AnsibleIniAntlrParser.IniContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link AnsibleIniAntlrParser#section}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSection(@NotNull AnsibleIniAntlrParser.SectionContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link AnsibleIniAntlrParser#sl_comment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSl_comment(@NotNull AnsibleIniAntlrParser.Sl_commentContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link AnsibleIniAntlrParser#sectionGroupHeader}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSectionGroupHeader(@NotNull AnsibleIniAntlrParser.SectionGroupHeaderContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link AnsibleIniAntlrParser#path}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPath(@NotNull AnsibleIniAntlrParser.PathContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link AnsibleIniAntlrParser#hostname}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitHostname(@NotNull AnsibleIniAntlrParser.HostnameContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link AnsibleIniAntlrParser#sectionRow}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSectionRow(@NotNull AnsibleIniAntlrParser.SectionRowContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link AnsibleIniAntlrParser#sectionHeader}.
@@ -26,9 +75,37 @@ public interface AnsibleIniAntlrVisitor<T> extends ParseTreeVisitor<T> {
 	T visitSectionHeader(@NotNull AnsibleIniAntlrParser.SectionHeaderContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link AnsibleIniAntlrParser#sl_comment}.
+	 * Visit a parse tree produced by {@link AnsibleIniAntlrParser#variable}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSl_comment(@NotNull AnsibleIniAntlrParser.Sl_commentContext ctx);
+	T visitVariable(@NotNull AnsibleIniAntlrParser.VariableContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link AnsibleIniAntlrParser#sectionVarsHeader}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSectionVarsHeader(@NotNull AnsibleIniAntlrParser.SectionVarsHeaderContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link AnsibleIniAntlrParser#groupSection}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGroupSection(@NotNull AnsibleIniAntlrParser.GroupSectionContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link AnsibleIniAntlrParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitValue(@NotNull AnsibleIniAntlrParser.ValueContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link AnsibleIniAntlrParser#varsSection}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVarsSection(@NotNull AnsibleIniAntlrParser.VarsSectionContext ctx);
 }

@@ -1,4 +1,4 @@
-/*
+   /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -7,7 +7,7 @@ grammar AnsibleIniAntlr;
 //@lexer::header{package de.javastream.netbeans.ansible.lexer;}
 
 ini
-    :(sl_comment | section | varsSection | groupSection)*
+    :(sl_comment | section | varsSection | groupSection | EOL)*
     ;
 
 sl_comment
@@ -15,17 +15,21 @@ sl_comment
     ;
 
 section
-    : sectionHeader (hostname | EOL)*
+    : sectionHeader sectionRow+
+    ;
+
+sectionRow
+    : ((hostname (WS+ expression)*)|EOL*) EOL
     ;
 
 
 varsSection
-    : sectionVarsHeader (hostname | EOL)*
+    : sectionVarsHeader (expression | EOL)*
     ;
 
 
 groupSection
-    : sectionGroupHeader (hostname | EOL)*
+    : sectionGroupHeader (hostname (expression)* | EOL)*
     ;
 
 
@@ -44,11 +48,26 @@ sectionGroupHeader
    ;
 
 
+variable
+   : IDENT
+   ;
 
+
+value
+   : ((STRING|IDENT) | hostname| path)
+   ;
+
+expression
+   : variable EQUAL value
+   ;
 
 
 hostname
    : (STRING|IDENT) (DOT STRING)*
+   ;
+
+path
+   : SLASH? DOT? (STRING|IDENT) (SLASH DOT? (STRING|IDENT))*
    ;
 
 WARS
@@ -72,6 +91,16 @@ RSQUARE
 
 IDENT
    : ('a' .. 'z' | 'A' .. 'Z') ('a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_')*
+   ;
+
+
+EQUAL
+   : '='
+   ;
+
+
+SLASH
+   : '/'
    ;
 
 
