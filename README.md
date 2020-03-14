@@ -11,6 +11,9 @@
   
 ## current State
 
+15.13.2020
+- Syntax parser ansible ini files improvements
+
 17.11.2019
 - Added simple syntax parser to ansible ini files (hosts, ansible.cfg)
 

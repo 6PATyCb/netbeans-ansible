@@ -19,7 +19,7 @@ section
     ;
 
 sectionRow
-    : ((hostname (WS+ expression)*)|EOL*) EOL
+    : ((hostname? (WS* expression)*)|EOL*|sl_comment*) EOL
     ;
 
 
@@ -27,26 +27,27 @@ varsSection
     : sectionVarsHeader (expression | EOL)*
     ;
 
-
 groupSection
     : sectionGroupHeader (hostname (expression)* | EOL)*
     ;
 
-
 sectionHeader
-   : LSQUARE IDENT RSQUARE (WS|EOL)*EOL
+   : SECTION_HEADER
    ;
 
-
 sectionVarsHeader
-   : LSQUARE IDENT COLON WARS RSQUARE (WS|EOL)*EOL
+   : SECTION_VARS_HEADER
    ;
 
 
 sectionGroupHeader
-   : LSQUARE IDENT COLON IDENT RSQUARE (WS|EOL)*EOL
+   : SECTION_GROUP_HEADER
    ;
 
+
+expression
+   : variable WS* EQUAL WS* value
+   ;
 
 variable
    : IDENT
@@ -54,11 +55,11 @@ variable
 
 
 value
-   : ((STRING|IDENT) | hostname| path)
+   : (path | hostname | (STRING|IDENT))
    ;
 
-expression
-   : variable EQUAL value
+path
+   : PATH
    ;
 
 
@@ -66,9 +67,20 @@ hostname
    : (STRING|IDENT) (DOT STRING)*
    ;
 
-path
-   : SLASH? DOT? (STRING|IDENT) (SLASH DOT? (STRING|IDENT))*
+
+
+SECTION_VARS_HEADER
+   : LSQUARE (STRING|IDENT) COLON WARS RSQUARE (WS|EOL)*EOL
    ;
+
+SECTION_GROUP_HEADER
+   : LSQUARE (STRING|IDENT) COLON IDENT RSQUARE (WS|EOL)*EOL
+   ;
+
+SECTION_HEADER
+   : LSQUARE (STRING|IDENT) RSQUARE (WS|EOL)*EOL
+   ;
+
 
 WARS
    : 'v' 'a' 'r' 's'
@@ -108,6 +120,10 @@ DOT
     : '.'
     ;
 
+MINUS
+    : '-'
+    ;
+
 
 COLON
     : ':'
@@ -121,6 +137,18 @@ HEX
 
 STRING
    : ([a-zA-Z~0-9] | HEX) ([a-zA-Z0-9.-] | HEX)*
+   ;
+
+FOLDER_NAME
+    : ('.' | '..' | [a-zA-Z~0-9._-]+)
+    ;
+
+FILE_NAME
+    : '.'? [a-zA-Z~0-9._-]+
+    ;
+
+PATH
+   : SLASH? (FOLDER_NAME) (SLASH FOLDER_NAME)* SLASH? FILE_NAME?
    ;
 
 

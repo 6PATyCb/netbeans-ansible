@@ -8,24 +8,32 @@ package de.javastream.netbeans.ansible.lexer;
 import org.netbeans.api.lexer.TokenId;
 
 /**
- * Must be mapped to AnsibleIniLexerGrammar.tokens
+ * Must be mapped to AnsibleIniLexerGrammar.tokens. Use TokenTypeRefresher to
+ * update it.
  *
  * @author 6PATyCb
  */
 public enum TokenType implements TokenId {
-    WARS(1, "field"),
-    COLON(9, "field"),
-    HEX(10, "identifier"),
-    EQUAL(6, "identifier"),
-    SLASH(7, "identifier"),
-    SL_COMMENT(2, "comment"),
-    DOT(8, "identifier"),
-    STRING(11, "string"),
-    WS(12, "whitespace"),
-    EOL(13, "whitespace"),
-    IDENT(5, "identifier"),
-    LSQUARE(3, "field"),
-    RSQUARE(4, "field"),;
+    WARS(4, "field"),
+    COLON(13, "field"),
+    HEX(14, "identifier"),
+    EQUAL(9, "identifier"),
+    SLASH(10, "identifier"),
+    SL_COMMENT(5, "comment"),
+    DOT(11, "identifier"),
+    STRING(15, "string"),
+    WS(19, "whitespace"),
+    EOL(20, "whitespace"),
+    IDENT(8, "identifier"),
+    LSQUARE(6, "field"),
+    RSQUARE(7, "field"),
+    MINUS(12, "field"),
+    SECTION_HEADER(3, "field"),
+    SECTION_GROUP_HEADER(2, "field"),
+    SECTION_VARS_HEADER(1, "field"),
+    PATH(18, "string"),
+    FILE_NAME(17, ""),
+    FOLDER_NAME(16, ""),;
 
     public int id;
     public String category;
